@@ -28,7 +28,7 @@ def new_task_function():
 
     def load_and_join_tables(snowflake_options: dict):
         # Load data from Snowflake
-        sales_df = spark.read \
+        joined_df = spark.read \
             .format("snowflake") \
             .options(**snowflake_options) \
             .option("dbtable", "fleet_service_data") \
