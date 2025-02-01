@@ -7,7 +7,7 @@
 #     import os
 #     import requests
 #     from io import BytesIO
-def csv_to_snowflake_etl():
+def excel_to_snowflake_etl():
     # Import necessary libraries
     from pyspark.sql import SparkSession
     import pandas as pd
