@@ -1,17 +1,26 @@
-def excel_to_snowflake_etl(): 
+# def excel_to_snowflake_etl(): 
     
+#     # Import necessary libraries
+#     from pyspark.sql import SparkSession
+#     import pandas as pd
+    
+#     import os
+#     import requests
+#     from io import BytesIO
+def csv_to_snowflake_etl():
     # Import necessary libraries
     from pyspark.sql import SparkSession
     import pandas as pd
-    
     import os
     import requests
-    from io import BytesIO
+    from io import StringIO
+    import tempfile
     # Load environment variables
   
     # Create a Spark session
     spark = SparkSession.builder \
-        .appName("Snowflake to PostgreSQL") \
+        # .appName("Snowflake to PostgreSQL") \
+        .appName("CSV to Snowflake ETL") \
         .master("local[*]") \
         .config("spark.jars.packages", "net.snowflake:spark-snowflake_2.12:2.10.0-spark_3.2,net.snowflake:snowflake-jdbc:3.13.3,com.crealytics:spark-excel_2.12:0.13.5") \
         .config("spark.driver.memory", "4g") \
@@ -37,12 +46,12 @@ def excel_to_snowflake_etl():
     def load_and_write_excel_to_snowflake(snowflake_options: dict):
         github_url = "https://github.com/christinabust/repo_pipline/blob/main/data/fleet_service_data.csv"  # Replace with the actual raw URL
 
-        # Step 1: Download the Excel file from GitHub
-        response = requests.get(github_url)
-        if response.status_code == 200:
-            print("File downloaded successfully!")
-        else:
-            raise Exception(f"Failed to download file from GitHub. Status code: {response.status_code}")
+        # # Step 1: Download the Excel file from GitHub
+        # response = requests.get(github_url)
+        # if response.status_code == 200:
+        #     print("File downloaded successfully!")
+        # else:
+        #     raise Exception(f"Failed to download file from GitHub. Status code: {response.status_code}")
 
         # # Step 2: Read the Excel file into a Pandas DataFrame
         # excel_file = BytesIO(response.content)  # Treat the content as a file
