@@ -58,8 +58,8 @@ def excel_to_snowflake_etl():
         # sheets = pd.ExcelFile(excel_file)  
         # Step 1: Get all sheet names using Pandas
         excel_file = pd.ExcelFile(excel_file)
-        sheet_names = excel_file.sheet_names
-        #   sheet_names = excel_file.sheet1
+        # sheet_names = excel_file.sheet_names
+          sheet_names = excel_file.sheet1
         if len(sheet_names) == 1:
             sheet_name = sheet_names[0]
             print(f"Single sheet found: {sheet_name}")
