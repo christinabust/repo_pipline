@@ -68,7 +68,7 @@ def excel_to_snowflake_etl():
 
         # Step 2: Load each sheet into a Spark DataFrame
         spark_dfs = {}
-        for sheet_name in sheet_names:
+        # for sheet_name in sheet_names:
             # for sheet_name in sheet_names:
             print(f"Loading sheet: {sheet_name}")
             spark_df = spark.read.format("com.crealytics.spark.excel") \
