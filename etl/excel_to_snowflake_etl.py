@@ -44,57 +44,64 @@ def excel_to_snowflake_etl():
     
     # Function to load all sheets from an Excel file and write them to Snowflake
     def load_and_write_excel_to_snowflake(snowflake_options: dict):
-        github_url = "https://github.com/christinabust/repo_pipline/blob/main/data/fleet_service_data.csv"  # Replace with the actual raw URL
+        github_url = "https://github.com/christinabust/repo_pipline/blob/main/data/c:\Users\ubiqu\BDA2\Fleet_Service\fleet_service_data_new.xls"  # Replace with the actual raw URL
 
-        # # Step 1: Download the Excel file from GitHub
-        # response = requests.get(github_url)
-        # if response.status_code == 200:
-        #     print("File downloaded successfully!")
-        # else:
-        #     raise Exception(f"Failed to download file from GitHub. Status code: {response.status_code}")
-
-        # # Step 2: Read the Excel file into a Pandas DataFrame
-        # excel_file = BytesIO(response.content)  # Treat the content as a file
-        # # sheets = pd.ExcelFile(excel_file)  
-        # # Step 1: Get all sheet names using Pandas
-        # excel_file = pd.ExcelFile(excel_file)
-        # sheet_names = excel_file.sheet_names
-
-        # # Step 2: Load each sheet into a Spark DataFrame
-        # spark_dfs = {}
-        # for sheet_name in sheet_names:
-        #     print(f"Loading sheet: {sheet_name}")
-        #     spark_df = spark.read.format("com.crealytics.spark.excel") \
-        #         .option("header", "true") \
-        #         .option("inferSchema", "true") \
-        #         .option("dataAddress", f"'{sheet_name}'!A1") \
-        #         .option("maxRowsInMemory", 20000) \
-        #         .load(github_url)
-        #     for col in spark_df.columns:
-        #         spark_df = spark_df.withColumnRenamed(col, col.replace(' ', '_'))
-        #     # Add the DataFrame to a dictionary with the sheet name as the key
-        #     spark_dfs[sheet_name] = spark_df
-        #     print(f"Loaded {sheet_name} with {spark_df.count()} rows")
-
-# Step 1: Download the CSV file from GitHub
+        # Step 1: Download the Excel file from GitHub
         response = requests.get(github_url)
         if response.status_code == 200:
             print("File downloaded successfully!")
         else:
             raise Exception(f"Failed to download file from GitHub. Status code: {response.status_code}")
 
-        # Step 2: Save the CSV content to a temporary file
-        csv_content = response.content.decode('utf-8')
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as temp_csv_file:
-            temp_csv_file.write(csv_content.encode('utf-8'))
-            temp_csv_path = temp_csv_file.name
+        # Step 2: Read the Excel file into a Pandas DataFrame
+        excel_file = BytesIO(response.content)  # Treat the content as a file
+        # sheets = pd.ExcelFile(excel_file)  
+        # Step 1: Get all sheet names using Pandas
+        excel_file = pd.ExcelFile(excel_file)
+        sheet_names = excel_file.sheet_names
+        #   sheet_names = excel_file.sheet1
+        if len(sheet_names) == 1:
+            sheet_name = sheet_names[0]
+            print(f"Single sheet found: {sheet_name}")
+        else:
+            raise Exception("Multiple sheets detected; only one sheet is supported in this implementation.")
 
-        # Step 3: Read the CSV file into a Spark DataFrame directly
-        spark_df = spark.read.csv(temp_csv_path, header=True, inferSchema=True)
+        # Step 2: Load each sheet into a Spark DataFrame
+        spark_dfs = {}
+        for sheet_name in sheet_names:
+            # for sheet_name in sheet_names:
+            print(f"Loading sheet: {sheet_name}")
+            spark_df = spark.read.format("com.crealytics.spark.excel") \
+                .option("header", "true") \
+                .option("inferSchema", "true") \
+                .option("dataAddress", f"'{sheet_name}'!A1") \
+                .option("maxRowsInMemory", 20000) \
+                .load(github_url)
+            for col in spark_df.columns:
+                spark_df = spark_df.withColumnRenamed(col, col.replace(' ', '_'))
+            # Add the DataFrame to a dictionary with the sheet name as the key
+            spark_dfs[sheet_name] = spark_df
+            print(f"Loaded {sheet_name} with {spark_df.count()} rows")
 
-        # Rename columns to replace spaces with underscores
-        for col in spark_df.columns:
-            spark_df = spark_df.withColumnRenamed(col, col.replace(' ', '_'))
+# # Step 1: Download the CSV file from GitHub
+#         response = requests.get(github_url)
+#         if response.status_code == 200:
+#             print("File downloaded successfully!")
+#         else:
+#             raise Exception(f"Failed to download file from GitHub. Status code: {response.status_code}")
+
+#         # Step 2: Save the CSV content to a temporary file
+#         csv_content = response.content.decode('utf-8')
+#         with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as temp_csv_file:
+#             temp_csv_file.write(csv_content.encode('utf-8'))
+#             temp_csv_path = temp_csv_file.name
+
+#         # Step 3: Read the CSV file into a Spark DataFrame directly
+#         spark_df = spark.read.csv(temp_csv_path, header=True, inferSchema=True)
+
+#         # Rename columns to replace spaces with underscores
+#         for col in spark_df.columns:
+#             spark_df = spark_df.withColumnRenamed(col, col.replace(' ', '_'))
 
 
             
