@@ -82,7 +82,7 @@ def new_task_function():
         #     .load()
         # joined_df = joined_df.join(customer_df, on=['CUSTOMERKEY'], how='inner')
         
-        print(snowflake_options)
+        # print(snowflake_options)
         return joined_df
 
     def load_from_snowflake_to_postgresql(snowflake_options: dict, pg_url: str, pg_properties: dict):
@@ -114,7 +114,7 @@ def new_task_function():
                 conn.commit()
                 print("Fleet table truncated successfully.")
         except Exception as e:
-            print(f"Failed to truncate table AdventureWorks: {e}")
+            print(f"Failed to truncate table Fleet: {e}")
         finally:
             if conn:
                 conn.close()
