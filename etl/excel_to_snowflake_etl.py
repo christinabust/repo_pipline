@@ -1,25 +1,25 @@
-# def excel_to_snowflake_etl(): 
+def excel_to_snowflake_etl(): 
     
-#     # Import necessary libraries
-#     from pyspark.sql import SparkSession
-#     import pandas as pd
-    
-#     import os
-#     import requests
-#     from io import BytesIO
-def excel_to_snowflake_etl():
     # Import necessary libraries
     from pyspark.sql import SparkSession
     import pandas as pd
+    
     import os
     import requests
-    from io import StringIO
-    import tempfile
+    from io import BytesIO
+# def excel_to_snowflake_etl():
+#     # Import necessary libraries
+#     from pyspark.sql import SparkSession
+#     import pandas as pd
+#     import os
+#     import requests
+#     from io import StringIO
+#     import tempfile
     # Load environment variables
   
     # Create a Spark session
     spark = SparkSession.builder \
-        # .appName("Snowflake to PostgreSQL") \
+        .appName("Snowflake to PostgreSQL") \
         .appName("CSV to Snowflake ETL") \
         .master("local[*]") \
         .config("spark.jars.packages", "net.snowflake:spark-snowflake_2.12:2.10.0-spark_3.2,net.snowflake:snowflake-jdbc:3.13.3,com.crealytics:spark-excel_2.12:0.13.5") \
