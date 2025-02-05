@@ -34,7 +34,7 @@ def new_task_function():
             .option("dbtable", "fleet_service_data") \
             .load()
         
-        Load and join Sales_Order_data
+        # Load and join Sales_Order_data
         sales_order_df = spark.read \
             .format("snowflake") \
             .options(**snowflake_options) \
