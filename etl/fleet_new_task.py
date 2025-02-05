@@ -132,7 +132,7 @@ def fleet_new_task_function():
         # Write joined data to PostgreSQL
         if joined_df:
             joined_df.write \
-                .jdbc(url=jdbc_url, table="AdventureWorks", mode="overwrite", properties=pg_properties)
+                .jdbc(url=jdbc_url, table="Sheet1", mode="overwrite", properties=pg_properties)
             print("Joined data written to PostgreSQL")
         else:
             print("No sheets could be joined due to missing common columns.")
