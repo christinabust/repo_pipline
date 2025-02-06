@@ -140,4 +140,4 @@ def sf_to_postgresql():
     spark.stop()
 
 # Run the function
-# sf_to_postgresql()
+sf_to_postgresql()
