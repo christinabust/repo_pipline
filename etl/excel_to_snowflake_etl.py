@@ -44,7 +44,7 @@ def excel_to_snowflake_etl():
     
     # Function to load all sheets from an Excel file and write them to Snowflake
     def load_and_write_excel_to_snowflake(snowflake_options: dict):
-        github_url = "https://github.com/christinabust/repo_pipline/blob/main/data/fleet_service_data_new.xlsx"  # Replace with the actual raw URL
+        github_url = "https://github.com/python-vic/ETL_EXCEL_SF/raw/refs/heads/master/AdventureWorks_Sales.xlsx"  # Replace with the actual raw URL
 
         # Step 1: Download the Excel file from GitHub
         response = requests.get(github_url)
@@ -55,16 +55,15 @@ def excel_to_snowflake_etl():
 
         # Step 2: Read the Excel file into a Pandas DataFrame
         excel_file = BytesIO(response.content)  # Treat the content as a file
-        # sheets = pd.ExcelFile(excel_file)  
+        sheets = pd.ExcelFile(excel_file)  
         # Step 1: Get all sheet names using Pandas
         excel_file = pd.ExcelFile(excel_file)
-        # sheet_names = excel_file.sheet_names
         sheet_names = excel_file.sheet_names
-        # if len(sheet_names) == 1:
-        #     sheet_name = sheet_names[0]
-        #     print(f"Single sheet found: {sheet_name}")
-        # else:
-        #     raise Exception("Multiple sheets detected; only one sheet is supported in this implementation.")
+        if len(sheet_names) == 1:
+            sheet_name = sheet_names[0]
+            print(f"Single sheet found: {sheet_name}")
+        else:
+            raise Exception("Multiple sheets detected; only one sheet is supported in this implementation.")
 
         # Step 2: Load each sheet into a Spark DataFrame
         spark_dfs = {}

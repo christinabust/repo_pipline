@@ -91,5 +91,5 @@ def fleet_excel_to_snowflake_etl():
     spark.stop()
 
 
-# fleet_to_snowflake_etl()
+fleet_excel_to_snowflake_etl()
 
